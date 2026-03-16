@@ -5,7 +5,7 @@
   --color-primary: #383838;
   --color-secondary: #394146;
   --color-brand: #0198E9;
-  --color-badge: linear-gradient(90deg, rgba(255, 122, 0, 1) 0%, rgba(255, 184, 0, 1) 50%);
+  --background-image-badge: linear-gradient(90deg, rgba(255, 122, 0, 1) 0%, rgba(255, 184, 0, 1) 50%);
 }
 
 @utility container {
@@ -17,6 +17,10 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-.slick-dots .slick-active button{
+.slick-dots .slick-active button {
   @apply w-4 md:w-8 bg-brand
+}
+
+.sub_head {
+  @apply text-[26px] font-medium text-primary;
 }

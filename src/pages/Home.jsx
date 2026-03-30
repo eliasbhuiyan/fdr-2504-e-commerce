@@ -3,6 +3,7 @@ import Banner from '../components/Home/Banner'
 import Category from '../components/Home/Category'
 import FlashDeal from '../components/Home/FlashDeal'
 import FeaturedProducts from '../components/Home/FeaturedProducts'
+import Services from '../components/ui/Services'
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
       <Category/>
       <FlashDeal/>
       <FeaturedProducts/> 
+      <Services/>
     </>
   )
 }

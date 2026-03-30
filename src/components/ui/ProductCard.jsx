@@ -4,7 +4,7 @@ import { FaStar } from 'react-icons/fa6'
 
 const ProductCard = () => {
     return (
-        <div className='p-2.5 border border-[#E9E9E9] rounded-2xl'>
+        <div className='p-2.5 border border-[#E9E9E9] rounded-2xl bg-white'>
             <div className='rounded-2xl overflow-hidden relative'>
                 <img src="/product.jpg" alt="product" className=' w-full' />
                 <p className='absolute top-0 left-0 py-1 px-3 bg-badge rounded text-white text-xs md:text-base'>-25% OFF</p>

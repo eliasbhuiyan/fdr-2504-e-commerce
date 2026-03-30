@@ -42,7 +42,7 @@ const Category = () => {
             icon: MdOutlineToys
         },
         {
-            title: "Men Fashion",
+            title: "Men Style",
             icon: MdOutlineToys
         },
         {

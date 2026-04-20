@@ -3,18 +3,39 @@ import SelectInput from "../components/ui/SelectInput";
 import ProductCard from "../components/ui/ProductCard";
 import { Link } from "react-router";
 import { useGetProductsQuery } from "../services/api";
+import { Pagination } from "../components/ui/Pagination";
 
 const Shop = () => {
-  const { data, isLoading, error } = useGetProductsQuery();
+  const [limit, setLimit] = useState(30);
+  const [pageNum, setPageNum] = useState(1);
+  const [totalPage, setTotalPage] = useState(1);
+  const { data, isLoading, error } = useGetProductsQuery({
+    limit,
+    skip: limit * (pageNum - 1),
+  });
+
+  useEffect(() => {
+    if (data?.total) {
+      setTotalPage(Math.ceil(data?.total / limit));
+    }
+  }, [data?.total, limit]);
 
   const sortOptions = [
     {
-      value: "newest_items",
-      label: "Newest Items",
+      value: "10",
+      label: "10",
     },
     {
-      value: "oldest_items",
-      label: "Oldest Items",
+      value: "30",
+      label: "30",
+    },
+    {
+      value: "50",
+      label: "50",
+    },
+    {
+      value: "80",
+      label: "80",
     },
   ];
   const categories = [
@@ -70,15 +91,23 @@ const Shop = () => {
         <div className="col-span-9">
           <div className="flex items-center justify-between">
             <p className="font-medium text-lg text-[#424241]/50">
-              Showing <span className="text-secondary">20</span> of{" "}
-              <span className="text-secondary">160</span> product
+              Showing{" "}
+              <span className="text-secondary">
+                {limit * (pageNum - 1) + 1} - {data?.total > limit * pageNum ? limit * pageNum : data?.total}
+              </span>{" "}
+              of <span className="text-secondary">{data?.total}</span> product
             </p>
             <div className="w-fit flex items-center gap-7">
-              <p>Sort By:</p>
-              <SelectInput className="max-w-44" options={sortOptions} />
+              <p>Display:</p>
+              <SelectInput
+                className="max-w-20"
+                options={sortOptions}
+                value={limit}
+                onChange={(e) => setLimit(e.target.value)}
+              />
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-6 mt-6">
+          <div className="grid grid-cols-4 gap-6 mt-6">
             {isLoading ? (
               <p>Loading products...</p>
             ) : (
@@ -87,6 +116,11 @@ const Shop = () => {
               ))
             )}
           </div>
+          <Pagination
+            handelChange={(num) => setPageNum(num)}
+            pageNum={pageNum}
+            totalPage={totalPage}
+          />
         </div>
       </div>
     </main>

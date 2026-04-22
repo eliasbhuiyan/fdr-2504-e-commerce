@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import SelectInput from "../components/ui/SelectInput";
 import ProductCard from "../components/ui/ProductCard";
-import { Link } from "react-router";
-import { useGetProductsQuery } from "../services/api";
+import { Link, useParams, useSearchParams } from "react-router";
+import { useGetCategoryListQuery, useGetProductsQuery } from "../services/api";
 import { Pagination } from "../components/ui/Pagination";
 
 const Shop = () => {
+  const [searchParams] = useSearchParams();
+  const category = searchParams.get("category");
+
   const [limit, setLimit] = useState(30);
   const [pageNum, setPageNum] = useState(1);
   const [totalPage, setTotalPage] = useState(1);
   const { data, isLoading, error } = useGetProductsQuery({
     limit,
     skip: limit * (pageNum - 1),
+    category,
   });
+  const { data: categories } = useGetCategoryListQuery();
 
   useEffect(() => {
     if (data?.total) {
@@ -38,29 +43,6 @@ const Shop = () => {
       label: "80",
     },
   ];
-  const categories = [
-    {
-      title: "Health & Household",
-    },
-    {
-      title: "Kids Fashion",
-    },
-    {
-      title: "Toys",
-    },
-    {
-      title: "Groceries",
-    },
-    {
-      title: "Men Fashion",
-    },
-    {
-      title: "Women’s Fashion",
-    },
-    {
-      title: "Stationary & Books",
-    },
-  ];
 
   return (
     <main className="py-12">
@@ -69,17 +51,6 @@ const Shop = () => {
           <h3 className="text-lg font-medium text-primary">
             Related Categories
           </h3>
-          <div className="space-y-1.5">
-            {categories.map((item) => (
-              <Link
-                to="/shop"
-                key={item.title}
-                className="block text-base text-secondary"
-              >
-                {item.title}
-              </Link>
-            ))}
-          </div>
           <div className="py-6 my-6 border-y-2 border-y-secondary/10">
             <h3 className="text-lg font-medium text-primary">
               Filter by Price
@@ -87,13 +58,25 @@ const Shop = () => {
             <input type="range" name="" id="" className="w-full my-6" />
             <p>Price: ৳1000 - ৳2500 </p>
           </div>
+          <div className="space-y-1.5">
+            {categories?.map((item) => (
+              <Link
+                to={`/shop?category=${item}`}
+                key={item}
+                className="block text-base text-secondary capitalize"
+              >
+                {item}
+              </Link>
+            ))}
+          </div>
         </div>
         <div className="col-span-9">
           <div className="flex items-center justify-between">
             <p className="font-medium text-lg text-[#424241]/50">
               Showing{" "}
               <span className="text-secondary">
-                {limit * (pageNum - 1) + 1} - {data?.total > limit * pageNum ? limit * pageNum : data?.total}
+                {limit * (pageNum - 1) + 1} -{" "}
+                {data?.total > limit * pageNum ? limit * pageNum : data?.total}
               </span>{" "}
               of <span className="text-secondary">{data?.total}</span> product
             </p>

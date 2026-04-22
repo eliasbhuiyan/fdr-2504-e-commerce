@@ -1,13 +1,15 @@
 import React from "react";
 import { BiCart } from "react-icons/bi";
 import { FaStar } from "react-icons/fa6";
+import { Link } from "react-router";
 
 const ProductCard = ({ data }) => {
-
   return (
     <div className="p-2.5 border border-[#E9E9E9] rounded-2xl bg-white">
       <div className="rounded-2xl overflow-hidden relative">
-        <img src={data?.thumbnail} alt="product" className=" w-full" />
+        <Link to={`/shop/${data.id}`}>
+          <img src={data?.thumbnail} alt="product" className=" w-full" />
+        </Link>
         {data?.discountPercentage && (
           <p className="absolute top-0 left-0 py-1 px-3 bg-badge rounded text-white text-xs md:text-base">
             -${data?.discountPercentage} OFF

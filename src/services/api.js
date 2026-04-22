@@ -6,11 +6,22 @@ export const apiService = createApi({
   }),
   endpoints: (build) => ({
     getProducts: build.query({
-      query: ({ limit, skip }) => `/products?limit=${limit}&skip=${skip}`,
+      query: ({ category, limit, skip }) =>
+        `/products${category ? `/category/${category}` : ""}?limit=${limit}&skip=${skip}`,
+    }),
+    getCategoryList: build.query({
+      query: () => "/products/category-list",
+    }),
+    getProductDetails: build.query({
+      query: (id) => `/products/${id}`,
     }),
   }),
 });
 
-export const { useGetProductsQuery } = apiService;
+export const {
+  useGetProductsQuery,
+  useGetCategoryListQuery,
+  useGetProductDetailsQuery,
+} = apiService;
 
 // getProducts = https://dummyjson.com/products

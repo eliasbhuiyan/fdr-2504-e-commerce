@@ -4,18 +4,19 @@ import { Link } from "react-router";
 import ProductCard from "../ui/ProductCard";
 import { useGetProductsQuery } from "../../services/api";
 
-const FeaturedProducts = () => {
+const SmartPhones = () => {
   const { data, isLoading, error } = useGetProductsQuery({
-    limit: 20,
+    limit: 4,
     skip: 0,
+    category: "smartphones",
   });
   return (
     <section className="pb-12">
       <div className="container">
         <div className="flex justify-between">
-          <h3 className="sub_head">Featured Product</h3>
+          <h3 className="sub_head">Smart Phones</h3>
           <Link
-            to="/shop"
+            to="/shop?category=smartphones"
             className="text-base font-normal text-secondary flex items-center gap-4"
           >
             View more <IoMdArrowForward />
@@ -31,4 +32,4 @@ const FeaturedProducts = () => {
   );
 };
 
-export default FeaturedProducts;
+export default SmartPhones;
